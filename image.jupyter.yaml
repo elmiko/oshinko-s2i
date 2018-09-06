@@ -10,7 +10,7 @@ labels:
   - name: "io.k8s.display-name"
     value: "radanalytics jupyter"
   - name: "io.openshift.expose-services"
-    value: "8888:http"
+    value: "8080:http"
   - name: "io.openshift.s2i.scripts-url"
     value: "image:///usr/libexec/s2i"
   - name: "io.openshift.tags"

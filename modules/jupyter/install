@@ -12,7 +12,9 @@ chown -R 185:0 -R $APP_ROOT && chmod a+rwX -R $APP_ROOT
 
 yum install -y curl wget curl tree java-headless bzip2 gnupg2 sqlite3 gcc gcc-c++ glibc-devel git mesa-libGL mesa-libGL-devel ca-certificates vim
 
-mkdir $HOME/.jupyter 
+mkdir -p /usr/local/etc/jupyter
+cp $ADDED_DIR/config/* /usr/local/etc/jupyter
+
 cd /tmp
 curl -s -o Miniconda3.sh https://repo.continuum.io/miniconda/Miniconda3-4.3.21-Linux-x86_64.sh
 echo c1c15d3baba15bf50293ae963abef853 Miniconda3.sh | md5sum -c -
@@ -47,10 +49,6 @@ then
     source /opt/app-root/etc/scl_enable && pip install -r $APP_ROOT/requirements.txt
 fi
 
-mkdir -p $HOME/.jupyter
-echo "c.NotebookApp.ip = '*'" >> $HOME/.jupyter/jupyter_notebook_config.py
-echo "c.NotebookApp.open_browser = False" >> $HOME/.jupyter/jupyter_notebook_config.py
-echo "c.NotebookApp.notebook_dir = '/notebooks'" >> $HOME/.jupyter/jupyter_notebook_config.py
 yum erase -y gcc gcc-c++ glibc-devel
 yum clean all -y
 rm -rf /root/.npm
