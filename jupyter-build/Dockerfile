@@ -26,6 +26,7 @@ ENV JBOSS_IMAGE_NAME="radanalyticsio/radanalytics-jupyter" \
     SPARK_HOME="/opt/spark" \
     PYTHONPATH="/opt/spark/python" \
     APP_ROOT="/opt/app-root" \
+    HOME="/opt/app-root" \
     APP_LANG="python" \
     LANGUAGE="en_US.UTF-8" \
     LANG="en_US.UTF-8" \
@@ -53,9 +54,9 @@ USER root
 
 
 # Install required RPMs and ensure that the packages were installed
-RUN yum install -y  java-1.8.0-openjdk \
+RUN yum install -y  java-1.8.0-openjdk curl wget tree java-headless bzip2 gnupg2 sqlite3 gcc gcc-c++ glibc-devel git mesa-libGL mesa-libGL-devel ca-certificates vim \
     && yum clean all && \
-    rpm -q  java-1.8.0-openjdk
+    rpm -q  java-1.8.0-openjdk curl wget tree java-headless bzip2 gnupg2 sqlite3 gcc gcc-c++ glibc-devel git mesa-libGL mesa-libGL-devel ca-certificates vim
 
 # Add all artifacts to the /tmp/artifacts
 # directory

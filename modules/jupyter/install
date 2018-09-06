@@ -39,9 +39,9 @@ jupyter nbextension enable --py widgetsnbextension --sys-prefix
 mkdir /notebooks
 chown -R 185:0 -R /notebooks
 
-if [ -f /opt/app-root/etc/scl_enable ] && [ -f $APP_ROOT/requirements.txt ]
+if [ -f $APP_ROOT/requirements.txt ]
 then
-    source /opt/app-root/etc/scl_enable && pip install -r $APP_ROOT/requirements.txt
+    $CONDA_DIR/bin/conda/install --quiet --yes --file $APP_ROOT/requirements.txt
 fi
 
 yum erase -y gcc gcc-c++ glibc-devel
