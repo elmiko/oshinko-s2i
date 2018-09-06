@@ -39,6 +39,14 @@ fix-permissions $CONDA_DIR
 fix-permissions $HOME 
 
 mkdir /notebooks
+chown -R 185:0 -R /notebooks
+cp $APP_ROOT/*.ipynb /notebooks
+
+if [ -f /opt/app-root/etc/scl_enable ] && [ -f $APP_ROOT/requirements.txt ]
+then
+    source /opt/app-root/etc/scl_enable && pip install -r $APP_ROOT/requirements.txt
+fi
+
 mkdir -p $HOME/.jupyter
 echo "c.NotebookApp.ip = '*'" >> $HOME/.jupyter/jupyter_notebook_config.py
 echo "c.NotebookApp.open_browser = False" >> $HOME/.jupyter/jupyter_notebook_config.py
