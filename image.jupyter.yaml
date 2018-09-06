@@ -1,0 +1,66 @@
+schema_version: 1
+
+name: "radanalyticsio/radanalytics-jupyter"
+version: 1.0
+release: dev
+from: "centos/python-36-centos7:latest"
+labels:
+  - name: "io.k8s.description"
+    value: "Platform for deploying Jupyter notebooks"
+  - name: "io.k8s.display-name"
+    value: "radanalytics jupyter"
+  - name: "io.openshift.expose-services"
+    value: "8888:http"
+  - name: "io.openshift.s2i.scripts-url"
+    value: "image:///usr/libexec/s2i"
+  - name: "io.openshift.tags"
+    value: "builder,radanalytics,jupyter"
+  - name: "io.radanalytics.sparkdistro"
+    value: "https://archive.apache.org/dist/spark/spark-2.3.0/spark-2.3.0-bin-hadoop2.7.tgz"
+envs:
+  - name: RADANALYTICS_JUPYTER
+    value: 1.0
+  - name: PATH
+    value: /opt/conda/bin:/opt/app-root/src/.local/bin/:/opt/app-root/src/bin:/opt/app-root/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/spark/bin
+  - name: SPARK_HOME
+    value: /opt/spark
+  - name: PYTHONPATH
+    value: /opt/spark/python
+  - name: APP_ROOT
+    value: /opt/app-root
+  - name: APP_LANG
+    value: python
+  - name: LANGUAGE
+    value: en_US.UTF-8
+  - name: LANG
+    value: en_US.UTF-8
+  - name: LC_ALL
+    value: en_US.UTF-8
+  - name: PYTHONIOENCODING
+    value: UTF-8
+  - name: CONDA_DIR
+    value: /opt/conda
+  - name: NB_PYTHON_VER
+    value: 3.6.3
+  - name: MINICONDA_VERSION
+    value: 4.3.21
+modules:
+    install:
+      - name: common
+      - name: spark
+      - name: pyspark
+      - name: jupyter
+packages:
+    install:
+      - java-1.8.0-openjdk
+artifacts:
+  - url: https://archive.apache.org/dist/spark/spark-2.3.0/spark-2.3.0-bin-hadoop2.7.tgz
+    md5: af45eeb06dc1beee6d4c70b92c0e0237
+  - url: https://github.com/radanalyticsio/oshinko-cli/releases/download/v0.5.4/oshinko_v0.5.4_linux_amd64.tar.gz
+    md5: e4b6b46f86bef72cc0b99a2d96273472
+run:
+    user: 185
+    cmd:
+      - /usr/libexec/s2i/usage
+    entrypoint:
+      - "/opt/app-root/etc/bootstrap.sh"

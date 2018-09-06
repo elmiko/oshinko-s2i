@@ -1,0 +1,9 @@
+#!/bin/bash -e
+cat <<EOF
+This is the radanalytics-jupyter S2I builder image.
+
+To use it, first install S2I: https://github.com/openshift/source-to-image
+
+Usage: s2i build [-e APP_FILE=filename] <github repo> radanalytics-jupyter <application image name>
+
+EOF

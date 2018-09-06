@@ -1,0 +1,12 @@
+#!/bin/bash
+set -e
+shopt -s dotglob
+
+# first run the pyspark assemble script
+/usr/libexec/s2i/assemble.pyspark
+
+echo "---> Proceeding with customized assemble ..."
+
+# set permissions for any installed artifacts
+fix-permissions /opt/app-root
+

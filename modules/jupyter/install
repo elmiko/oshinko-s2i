@@ -1,0 +1,56 @@
+#!/bin/sh
+
+set -e
+
+SCRIPT_DIR=$(dirname $0)
+ADDED_DIR=${SCRIPT_DIR}/added
+
+mkdir -p /usr/libexec/s2i
+mv /usr/libexec/s2i/assemble /usr/libexec/s2i/assemble.pyspark
+cp -r $ADDED_DIR/s2i/* /usr/libexec/s2i
+chown -R 185:0 -R $APP_ROOT && chmod a+rwX -R $APP_ROOT
+
+yum install -y curl wget curl tree java-headless bzip2 gnupg2 sqlite3 gcc gcc-c++ glibc-devel git mesa-libGL mesa-libGL-devel ca-certificates vim
+
+mkdir $HOME/.jupyter 
+cd /tmp
+curl -s -o Miniconda3.sh https://repo.continuum.io/miniconda/Miniconda3-4.3.21-Linux-x86_64.sh
+echo c1c15d3baba15bf50293ae963abef853 Miniconda3.sh | md5sum -c -
+bash Miniconda3.sh -b -p $CONDA_DIR
+rm Miniconda3.sh
+export PATH=$CONDA_DIR/bin:$PATH
+$CONDA_DIR/bin/conda config --system --prepend channels conda-forge
+$CONDA_DIR/bin/conda config --system --set auto_update_conda false
+$CONDA_DIR/bin/conda config --system --set show_channel_urls true
+$CONDA_DIR/bin/conda update --all --quiet --yes
+$CONDA_DIR/bin/conda install --quiet --yes 'nomkl' jupyter 'notebook=5.4.*' \
+    'jupyterlab=0.32*' \
+    'ipywidgets=7.0*' \
+    'pandas=0.19*' \
+    'matplotlib=2.0*' \
+    'scipy=0.19*' \
+    'seaborn=0.7*' \
+    'scikit-learn=0.18*' \
+    'protobuf=3.*'
+$CONDA_DIR/bin/conda clean -tipsy
+$CONDA_DIR/bin/conda remove --quiet --yes --force qt pyqt
+jupyter nbextension enable --py widgetsnbextension --sys-prefix
+fix-permissions $CONDA_DIR
+fix-permissions $HOME 
+
+mkdir /notebooks
+mkdir -p $HOME/.jupyter
+echo "c.NotebookApp.ip = '*'" >> $HOME/.jupyter/jupyter_notebook_config.py
+echo "c.NotebookApp.open_browser = False" >> $HOME/.jupyter/jupyter_notebook_config.py
+echo "c.NotebookApp.notebook_dir = '/notebooks'" >> $HOME/.jupyter/jupyter_notebook_config.py
+yum erase -y gcc gcc-c++ glibc-devel
+yum clean all -y
+rm -rf /root/.npm
+rm -rf /root/.cache
+rm -rf /root/.config
+rm -rf /root/.local
+rm -rf /root/tmp
+fix-permissions /opt
+fix-permissions $CONDA_DIR
+fix-permissions /notebooks
+fix-permissions $HOME
