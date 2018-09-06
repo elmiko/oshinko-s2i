@@ -55,6 +55,21 @@ modules:
 packages:
     install:
       - java-1.8.0-openjdk
+      - curl
+      - wget
+      - tree
+      - java-headless
+      - bzip2
+      - gnupg2
+      - sqlite3
+      - gcc
+      - gcc-c++
+      - glibc-devel
+      - git
+      - mesa-libGL
+      - mesa-libGL-devel
+      - ca-certificates
+      - vim
 artifacts:
   - url: https://archive.apache.org/dist/spark/spark-2.3.0/spark-2.3.0-bin-hadoop2.7.tgz
     md5: af45eeb06dc1beee6d4c70b92c0e0237
