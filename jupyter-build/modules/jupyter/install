@@ -42,7 +42,6 @@ fix-permissions $HOME
 
 mkdir /notebooks
 chown -R 185:0 -R /notebooks
-cp $APP_ROOT/*.ipynb /notebooks
 
 if [ -f /opt/app-root/etc/scl_enable ] && [ -f $APP_ROOT/requirements.txt ]
 then

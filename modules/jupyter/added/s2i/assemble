@@ -7,6 +7,8 @@ shopt -s dotglob
 
 echo "---> Proceeding with customized assemble ..."
 
+cp $APP_ROOT/src/*.ipynb /notebooks
+
 # set permissions for any installed artifacts
 fix-permissions /opt/app-root
 
