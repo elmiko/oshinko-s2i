@@ -10,6 +10,8 @@ mv /usr/libexec/s2i/assemble /usr/libexec/s2i/assemble.pyspark
 cp -r $ADDED_DIR/s2i/* /usr/libexec/s2i
 chown -R 185:0 -R $APP_ROOT && chmod a+rwX -R $APP_ROOT
 
+yum install -y curl wget tree java-headless bzip2 gnupg2 sqlite3 gcc gcc-c++ glibc-devel git mesa-libGL mesa-libGL-devel ca-certificates vim
+
 mkdir -p /usr/local/etc/jupyter
 cp $ADDED_DIR/config/* /usr/local/etc/jupyter
 

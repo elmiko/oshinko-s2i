@@ -54,9 +54,9 @@ USER root
 
 
 # Install required RPMs and ensure that the packages were installed
-RUN yum install -y  java-1.8.0-openjdk curl wget tree java-headless bzip2 gnupg2 sqlite3 gcc gcc-c++ glibc-devel git mesa-libGL mesa-libGL-devel ca-certificates vim \
+RUN yum install -y  java-1.8.0-openjdk \
     && yum clean all && \
-    rpm -q  java-1.8.0-openjdk curl wget tree java-headless bzip2 gnupg2 sqlite3 gcc gcc-c++ glibc-devel git mesa-libGL mesa-libGL-devel ca-certificates vim
+    rpm -q  java-1.8.0-openjdk
 
 # Add all artifacts to the /tmp/artifacts
 # directory
